@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Soenneker.Cloudflare.Workers.Ai.Abstract;
 
+/// <summary>
+/// Defines request/response inference operations for Cloudflare Workers AI models.
+/// </summary>
 public partial interface ICloudflareWorkersAiUtil
 {
     /// <summary>

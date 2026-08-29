@@ -3,6 +3,9 @@ using System.Threading;
 
 namespace Soenneker.Cloudflare.Workers.Ai.Abstract;
 
+/// <summary>
+/// Defines streaming inference operations for Cloudflare Workers AI models.
+/// </summary>
 public partial interface ICloudflareWorkersAiUtil
 {
     /// <summary>

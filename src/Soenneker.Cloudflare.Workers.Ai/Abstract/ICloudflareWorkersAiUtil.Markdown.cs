@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace Soenneker.Cloudflare.Workers.Ai.Abstract;
 
+/// <summary>
+/// Defines Markdown conversion operations backed by Cloudflare Workers AI.
+/// </summary>
 public partial interface ICloudflareWorkersAiUtil
 {
     /// <summary>
