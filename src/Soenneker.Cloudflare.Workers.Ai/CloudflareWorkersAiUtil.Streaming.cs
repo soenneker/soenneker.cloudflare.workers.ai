@@ -29,8 +29,7 @@ public sealed partial class CloudflareWorkersAiUtil
         using HttpResponseMessage response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
         if (!response.IsSuccessStatusCode)
         {
-            string error = await response.Content.ReadAsStringAsync(cancellationToken);
-            throw new HttpRequestException($"Workers AI streaming request failed with status {(int) response.StatusCode}: {error}", null,
+            throw new HttpRequestException($"Workers AI streaming request failed with status {(int) response.StatusCode}", null,
                 response.StatusCode);
         }
 
