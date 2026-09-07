@@ -10,6 +10,8 @@ namespace Soenneker.Cloudflare.Workers.Ai;
 
 public sealed partial class CloudflareWorkersAiUtil
 {
+    private static readonly string[] _modelNameKeys = ["name", "id", "model"];
+
     public ValueTask<WorkersAiSearchModel200?> ListModels(string accountId, string? task = null, string? author = null,
         bool? hideExperimental = null, int? page = null, int? perPage = null, CancellationToken cancellationToken = default) =>
         SearchModels(accountId, task: task, author: author, hideExperimental: hideExperimental, page: page, perPage: perPage,
@@ -64,7 +66,7 @@ public sealed partial class CloudflareWorkersAiUtil
 
     private static bool HasModelName(WorkersAiSearchModel200Member1_result model, string modelName)
     {
-        foreach (string key in new[] { "name", "id", "model" })
+        foreach (string key in _modelNameKeys)
         {
             if (model.AdditionalData.TryGetValue(key, out object? value) && value is string text &&
                 string.Equals(text, modelName, StringComparison.OrdinalIgnoreCase))

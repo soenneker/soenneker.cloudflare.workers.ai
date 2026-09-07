@@ -41,11 +41,11 @@ public sealed partial class CloudflareWorkersAiUtil
             if (!line.StartsWith("data:", StringComparison.OrdinalIgnoreCase))
                 continue;
 
-            string data = line[5..].TrimStart();
-            if (data.Length == 0 || data == "[DONE]")
+            ReadOnlySpan<char> data = line.AsSpan(5).TrimStart();
+            if (data.Length == 0 || data.SequenceEqual("[DONE]"))
                 continue;
 
-            yield return data;
+            yield return data.ToString();
         }
     }
 }
