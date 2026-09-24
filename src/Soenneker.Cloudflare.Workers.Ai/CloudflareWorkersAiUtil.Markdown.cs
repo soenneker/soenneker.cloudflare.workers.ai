@@ -16,7 +16,7 @@ public sealed partial class CloudflareWorkersAiUtil
         CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
-        await using FileStream stream = File.OpenRead(filePath);
+        await using FileStream stream = _fileUtil.OpenRead(filePath);
         return await ConvertToMarkdown(accountId, stream, Path.GetFileName(filePath), cancellationToken: cancellationToken);
     }
 

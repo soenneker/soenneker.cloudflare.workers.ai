@@ -1,3 +1,4 @@
+using Soenneker.Utils.File.Registrars;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Soenneker.Cloudflare.Utils.Client.Registrars;
@@ -17,7 +18,7 @@ public static class CloudflareWorkersAiUtilRegistrar
     /// <returns>The same service collection, so additional registrations can be chained.</returns>
     public static IServiceCollection AddCloudflareWorkersAiUtilAsSingleton(this IServiceCollection services)
     {
-        services.AddCloudflareClientUtilAsSingleton().TryAddSingleton<ICloudflareWorkersAiUtil, CloudflareWorkersAiUtil>();
+        services.AddFileUtilAsSingleton().AddCloudflareClientUtilAsSingleton().TryAddSingleton<ICloudflareWorkersAiUtil, CloudflareWorkersAiUtil>();
 
         return services;
     }
@@ -29,7 +30,7 @@ public static class CloudflareWorkersAiUtilRegistrar
     /// <returns>The same service collection, so additional registrations can be chained.</returns>
     public static IServiceCollection AddCloudflareWorkersAiUtilAsScoped(this IServiceCollection services)
     {
-        services.AddCloudflareClientUtilAsSingleton().TryAddScoped<ICloudflareWorkersAiUtil, CloudflareWorkersAiUtil>();
+        services.AddFileUtilAsSingleton().AddCloudflareClientUtilAsSingleton().TryAddScoped<ICloudflareWorkersAiUtil, CloudflareWorkersAiUtil>();
 
         return services;
     }

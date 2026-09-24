@@ -1,3 +1,4 @@
+using Soenneker.Utils.File.Abstract;
 using Microsoft.Extensions.Logging;
 using Soenneker.Cloudflare.OpenApiClient;
 using Soenneker.Cloudflare.OpenApiClient.Models;
@@ -19,8 +20,11 @@ public sealed partial class CloudflareWorkersAiUtil : ICloudflareWorkersAiUtil
     private readonly ICloudflareHttpClient _httpClientUtil;
     private readonly ILogger<CloudflareWorkersAiUtil> _logger;
 
-    public CloudflareWorkersAiUtil(ICloudflareClientUtil clientUtil, ICloudflareHttpClient httpClientUtil, ILogger<CloudflareWorkersAiUtil> logger)
+    private readonly IFileUtil _fileUtil;
+
+    public CloudflareWorkersAiUtil(ICloudflareClientUtil clientUtil, ICloudflareHttpClient httpClientUtil, ILogger<CloudflareWorkersAiUtil> logger, IFileUtil fileUtil)
     {
+        _fileUtil = fileUtil;
         _clientUtil = clientUtil;
         _httpClientUtil = httpClientUtil;
         _logger = logger;
