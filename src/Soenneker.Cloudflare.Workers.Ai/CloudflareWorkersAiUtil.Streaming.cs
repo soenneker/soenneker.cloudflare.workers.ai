@@ -1,5 +1,7 @@
 using Soenneker.Extensions.ValueTask;
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization.Metadata;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -11,8 +13,21 @@ namespace Soenneker.Cloudflare.Workers.Ai;
 
 public sealed partial class CloudflareWorkersAiUtil
 {
-    public async IAsyncEnumerable<string> RunStreaming(string accountId, string modelName, IReadOnlyDictionary<string, object?> input,
-        [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    [RequiresUnreferencedCode("Arbitrary model inputs require preserved JSON metadata. Use the overload accepting JsonTypeInfo for AOT.")]
+    [RequiresDynamicCode("Arbitrary model inputs can require runtime serialization code. Use the overload accepting JsonTypeInfo for AOT.")]
+    public IAsyncEnumerable<string> RunStreaming(string accountId, string modelName, IReadOnlyDictionary<string, object?> input,
+        CancellationToken cancellationToken = default) =>
+        RunStreamingCore(accountId, modelName, input, static payload => JsonContent.Create(payload), cancellationToken);
+
+    public IAsyncEnumerable<string> RunStreaming(string accountId, string modelName, IReadOnlyDictionary<string, object?> input,
+        JsonTypeInfo<Dictionary<string, object?>> typeInfo, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(typeInfo);
+        return RunStreamingCore(accountId, modelName, input, payload => JsonContent.Create(payload, typeInfo), cancellationToken);
+    }
+
+    private async IAsyncEnumerable<string> RunStreamingCore(string accountId, string modelName, IReadOnlyDictionary<string, object?> input,
+        Func<Dictionary<string, object?>, HttpContent> createContent, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(accountId);
         ArgumentException.ThrowIfNullOrWhiteSpace(modelName);
@@ -23,7 +38,7 @@ public sealed partial class CloudflareWorkersAiUtil
         var path = $"accounts/{Uri.EscapeDataString(accountId)}/ai/run/{Uri.EscapeDataString(modelName)}";
 
         using var request = new HttpRequestMessage(HttpMethod.Post, path);
-        request.Content = JsonContent.Create(payload);
+        request.Content = createContent(payload);
         request.Headers.Accept.ParseAdd("text/event-stream");
 
         using HttpResponseMessage response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
