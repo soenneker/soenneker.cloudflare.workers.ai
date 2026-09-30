@@ -15,7 +15,7 @@ public sealed class CloudflareWorkersAiUtilTests : HostedUnitTest
     }
 
     [Test]
-    public async Task Resolves()
+    public async ValueTask Resolves()
     {
         await Assert.That(_util).IsNotNull();
     }
