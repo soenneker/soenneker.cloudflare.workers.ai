@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Soenneker.Cloudflare.Workers.Ai.Abstract;
 using Soenneker.Tests.HostedUnit;
+using System.Threading;
 
 namespace Soenneker.Cloudflare.Workers.Ai.Tests;
 
@@ -15,7 +16,7 @@ public sealed class CloudflareWorkersAiUtilTests : HostedUnitTest
     }
 
     [Test]
-    public async ValueTask Resolves()
+    public async ValueTask Resolves(CancellationToken cancellationToken)
     {
         await Assert.That(_util).IsNotNull();
     }
