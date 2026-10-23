@@ -12,7 +12,7 @@ namespace Soenneker.Cloudflare.Workers.Ai;
 
 public sealed partial class CloudflareWorkersAiUtil
 {
-    public async ValueTask<WorkersAiPostToMarkdown200?> ConvertToMarkdown(string accountId, string filePath,
+    public async ValueTask<WorkersAiPostToMarkdown200Response?> ConvertToMarkdown(string accountId, string filePath,
         CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
@@ -20,7 +20,7 @@ public sealed partial class CloudflareWorkersAiUtil
         return await ConvertToMarkdown(accountId, stream, Path.GetFileName(filePath), cancellationToken: cancellationToken);
     }
 
-    public async ValueTask<WorkersAiPostToMarkdown200?> ConvertToMarkdown(string accountId, byte[] content, string fileName,
+    public async ValueTask<WorkersAiPostToMarkdown200Response?> ConvertToMarkdown(string accountId, byte[] content, string fileName,
         string contentType = "application/octet-stream", CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(content);
@@ -31,7 +31,7 @@ public sealed partial class CloudflareWorkersAiUtil
         return await ConvertToMarkdown(accountId, stream, fileName, contentType, cancellationToken);
     }
 
-    public async ValueTask<WorkersAiPostToMarkdown200?> ConvertToMarkdown(string accountId, Stream content, string fileName,
+    public async ValueTask<WorkersAiPostToMarkdown200Response?> ConvertToMarkdown(string accountId, Stream content, string fileName,
         string contentType = "application/octet-stream", CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(accountId);
@@ -47,7 +47,7 @@ public sealed partial class CloudflareWorkersAiUtil
         return await client.Accounts[accountId].Ai.Tomarkdown.PostAsync(multipartBody, cancellationToken: cancellationToken).NoSync();
     }
 
-    public async ValueTask<WorkersAiGetToMarkdownSupported200?> GetSupportedMarkdownFormats(string accountId,
+    public async ValueTask<WorkersAiGetToMarkdownSupported200Response?> GetSupportedMarkdownFormats(string accountId,
         CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(accountId);

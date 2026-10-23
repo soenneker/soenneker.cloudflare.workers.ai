@@ -14,7 +14,7 @@ namespace Soenneker.Cloudflare.Workers.Ai;
 
 public sealed partial class CloudflareWorkersAiUtil
 {
-    public async ValueTask<WorkersAiPostRunGeneric200?> RunGeneric(string accountId, WorkersAiPostRunGeneric request,
+    public async ValueTask<WorkersAiPostRunGeneric200Response?> RunGeneric(string accountId, WorkersAiPostRunGenericRequest request,
         CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(accountId);
@@ -26,7 +26,7 @@ public sealed partial class CloudflareWorkersAiUtil
         try
         {
             CloudflareOpenApiClient client = await _clientUtil.Get(cancellationToken).NoSync();
-            WorkersAiPostRunGeneric200? response = await client.Accounts[accountId].Ai.Run
+            WorkersAiPostRunGeneric200Response? response = await client.Accounts[accountId].Ai.Run
                 .PostAsync(request, cancellationToken: cancellationToken)
                 .NoSync();
 
@@ -41,7 +41,7 @@ public sealed partial class CloudflareWorkersAiUtil
         }
     }
 
-    public ValueTask<WorkersAiPostRunGeneric200?> GenerateText(string accountId, string modelName, string prompt, int? maxTokens = null,
+    public ValueTask<WorkersAiPostRunGeneric200Response?> GenerateText(string accountId, string modelName, string prompt, int? maxTokens = null,
         double? temperature = null, CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
@@ -52,7 +52,7 @@ public sealed partial class CloudflareWorkersAiUtil
         return RunGeneric(accountId, CreateGenericRequest(modelName, input), cancellationToken);
     }
 
-    public ValueTask<WorkersAiPostRunGeneric200?> Chat(string accountId, string modelName, IReadOnlyCollection<CloudflareWorkersAiMessage> messages,
+    public ValueTask<WorkersAiPostRunGeneric200Response?> Chat(string accountId, string modelName, IReadOnlyCollection<CloudflareWorkersAiMessage> messages,
         int? maxTokens = null, double? temperature = null, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(messages);
@@ -72,7 +72,7 @@ public sealed partial class CloudflareWorkersAiUtil
         return RunGeneric(accountId, CreateGenericRequest(modelName, input), cancellationToken);
     }
 
-    public ValueTask<WorkersAiPostRunGeneric200?> GenerateEmbeddings(string accountId, string modelName, IReadOnlyCollection<string> text,
+    public ValueTask<WorkersAiPostRunGeneric200Response?> GenerateEmbeddings(string accountId, string modelName, IReadOnlyCollection<string> text,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(text);
@@ -82,7 +82,7 @@ public sealed partial class CloudflareWorkersAiUtil
         return RunGeneric(accountId, CreateGenericRequest(modelName, new Dictionary<string, object> { ["text"] = text.ToArray() }), cancellationToken);
     }
 
-    public ValueTask<WorkersAiPostRunGeneric200?> GenerateImage(string accountId, string modelName, string prompt, string? negativePrompt = null,
+    public ValueTask<WorkersAiPostRunGeneric200Response?> GenerateImage(string accountId, string modelName, string prompt, string? negativePrompt = null,
         int? width = null, int? height = null, int? steps = null, CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(prompt);
@@ -95,7 +95,7 @@ public sealed partial class CloudflareWorkersAiUtil
         return RunGeneric(accountId, CreateGenericRequest(modelName, input), cancellationToken);
     }
 
-    public ValueTask<WorkersAiPostRunGeneric200?> Transcribe(string accountId, string modelName, byte[] audio, string? language = null,
+    public ValueTask<WorkersAiPostRunGeneric200Response?> Transcribe(string accountId, string modelName, byte[] audio, string? language = null,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(audio);
@@ -107,7 +107,7 @@ public sealed partial class CloudflareWorkersAiUtil
         return RunGeneric(accountId, CreateGenericRequest(modelName, input), cancellationToken);
     }
 
-    public ValueTask<WorkersAiPostRunGeneric200?> Translate(string accountId, string modelName, string text, string sourceLanguage,
+    public ValueTask<WorkersAiPostRunGeneric200Response?> Translate(string accountId, string modelName, string text, string sourceLanguage,
         string targetLanguage, CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(text);
@@ -123,13 +123,13 @@ public sealed partial class CloudflareWorkersAiUtil
         return RunGeneric(accountId, CreateGenericRequest(modelName, input), cancellationToken);
     }
 
-    private static WorkersAiPostRunGeneric CreateGenericRequest(string modelName, Dictionary<string, object> input)
+    private static WorkersAiPostRunGenericRequest CreateGenericRequest(string modelName, Dictionary<string, object> input)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(modelName);
-        return new WorkersAiPostRunGeneric
+        return new WorkersAiPostRunGenericRequest
         {
             Model = modelName,
-            Input = new WorkersAiPostRunGeneric_input { AdditionalData = input }
+            Input = new WorkersAiPostRunGenericRequestInput { AdditionalData = input }
         };
     }
 

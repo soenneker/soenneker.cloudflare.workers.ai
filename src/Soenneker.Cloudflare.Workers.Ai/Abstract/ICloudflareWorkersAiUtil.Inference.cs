@@ -18,7 +18,7 @@ public partial interface ICloudflareWorkersAiUtil
     /// <param name="request">request that defines the request to send.</param>
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task whose result is the requested workers Ai Post Run Generic.</returns>
-    ValueTask<WorkersAiPostRunGeneric200?> RunGeneric(string accountId, WorkersAiPostRunGeneric request,
+    ValueTask<WorkersAiPostRunGeneric200Response?> RunGeneric(string accountId, WorkersAiPostRunGenericRequest request,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -31,7 +31,7 @@ public partial interface ICloudflareWorkersAiUtil
     /// <param name="temperature">Temperature for the generate text operation.</param>
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task whose result is the requested workers Ai Post Run Generic.</returns>
-    ValueTask<WorkersAiPostRunGeneric200?> GenerateText(string accountId, string modelName, string prompt,
+    ValueTask<WorkersAiPostRunGeneric200Response?> GenerateText(string accountId, string modelName, string prompt,
         int? maxTokens = null, double? temperature = null, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -44,7 +44,7 @@ public partial interface ICloudflareWorkersAiUtil
     /// <param name="temperature">Temperature for the chat operation.</param>
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task whose result is the requested workers Ai Post Run Generic.</returns>
-    ValueTask<WorkersAiPostRunGeneric200?> Chat(string accountId, string modelName,
+    ValueTask<WorkersAiPostRunGeneric200Response?> Chat(string accountId, string modelName,
         IReadOnlyCollection<CloudflareWorkersAiMessage> messages, int? maxTokens = null, double? temperature = null,
         CancellationToken cancellationToken = default);
 
@@ -56,7 +56,7 @@ public partial interface ICloudflareWorkersAiUtil
     /// <param name="text">text to process.</param>
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task whose result is the requested workers Ai Post Run Generic.</returns>
-    ValueTask<WorkersAiPostRunGeneric200?> GenerateEmbeddings(string accountId, string modelName,
+    ValueTask<WorkersAiPostRunGeneric200Response?> GenerateEmbeddings(string accountId, string modelName,
         IReadOnlyCollection<string> text, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -71,7 +71,7 @@ public partial interface ICloudflareWorkersAiUtil
     /// <param name="steps">Steps for the generate image operation.</param>
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task whose result is the requested workers Ai Post Run Generic.</returns>
-    ValueTask<WorkersAiPostRunGeneric200?> GenerateImage(string accountId, string modelName, string prompt,
+    ValueTask<WorkersAiPostRunGeneric200Response?> GenerateImage(string accountId, string modelName, string prompt,
         string? negativePrompt = null, int? width = null, int? height = null, int? steps = null,
         CancellationToken cancellationToken = default);
 
@@ -84,7 +84,7 @@ public partial interface ICloudflareWorkersAiUtil
     /// <param name="language">Language for the transcribe operation.</param>
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task whose result is the requested workers Ai Post Run Generic.</returns>
-    ValueTask<WorkersAiPostRunGeneric200?> Transcribe(string accountId, string modelName, byte[] audio,
+    ValueTask<WorkersAiPostRunGeneric200Response?> Transcribe(string accountId, string modelName, byte[] audio,
         string? language = null, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -97,6 +97,6 @@ public partial interface ICloudflareWorkersAiUtil
     /// <param name="targetLanguage">Target Language for the translate operation.</param>
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task whose result is the requested workers Ai Post Run Generic.</returns>
-    ValueTask<WorkersAiPostRunGeneric200?> Translate(string accountId, string modelName, string text,
+    ValueTask<WorkersAiPostRunGeneric200Response?> Translate(string accountId, string modelName, string text,
         string sourceLanguage, string targetLanguage, CancellationToken cancellationToken = default);
 }

@@ -12,24 +12,24 @@ public sealed partial class CloudflareWorkersAiUtil
 {
     private static readonly string[] _modelNameKeys = ["name", "id", "model"];
 
-    public ValueTask<WorkersAiSearchModel200?> ListModels(string accountId, string? task = null, string? author = null,
+    public ValueTask<WorkersAiSearchModel200Response?> ListModels(string accountId, string? task = null, string? author = null,
         bool? hideExperimental = null, int? page = null, int? perPage = null, CancellationToken cancellationToken = default) =>
         SearchModels(accountId, task: task, author: author, hideExperimental: hideExperimental, page: page, perPage: perPage,
             cancellationToken: cancellationToken);
 
-    public async ValueTask<WorkersAiSearchModel200Member1_result?> GetModel(string accountId, string modelName,
+    public async ValueTask<WorkersAiSearchModel200ResponseAnyOf1ResultItem?> GetModel(string accountId, string modelName,
         CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(modelName);
-        WorkersAiSearchModel200? response = await SearchModels(accountId, search: modelName, perPage: 100, cancellationToken: cancellationToken);
-        List<WorkersAiSearchModel200Member1_result>? models = response?.WorkersAiSearchModel200Member1?.Result;
+        WorkersAiSearchModel200Response? response = await SearchModels(accountId, search: modelName, perPage: 100, cancellationToken: cancellationToken);
+        List<WorkersAiSearchModel200ResponseAnyOf1ResultItem>? models = GetModels(response);
         if (models is null)
             return null;
 
         return models.FirstOrDefault(model => HasModelName(model, modelName));
     }
 
-    public async IAsyncEnumerable<WorkersAiSearchModel200Member1_result> EnumerateModels(string accountId, string? search = null,
+    public async IAsyncEnumerable<WorkersAiSearchModel200ResponseAnyOf1ResultItem> EnumerateModels(string accountId, string? search = null,
         string? task = null, string? author = null, bool? hideExperimental = null, int pageSize = 100,
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
@@ -38,14 +38,14 @@ public sealed partial class CloudflareWorkersAiUtil
 
         while (true)
         {
-            WorkersAiSearchModel200? response = await SearchModels(accountId, search, task, author, hideExperimental, page, pageSize,
+            WorkersAiSearchModel200Response? response = await SearchModels(accountId, search, task, author, hideExperimental, page, pageSize,
                 cancellationToken);
-            List<WorkersAiSearchModel200Member1_result>? models = response?.WorkersAiSearchModel200Member1?.Result;
+            List<WorkersAiSearchModel200ResponseAnyOf1ResultItem>? models = GetModels(response);
 
             if (models is null || models.Count == 0)
                 yield break;
 
-            foreach (WorkersAiSearchModel200Member1_result model in models)
+            foreach (WorkersAiSearchModel200ResponseAnyOf1ResultItem model in models)
             {
                 cancellationToken.ThrowIfCancellationRequested();
                 yield return model;
@@ -58,13 +58,19 @@ public sealed partial class CloudflareWorkersAiUtil
         }
     }
 
-    public ValueTask<WorkersAiSearchTask200?> ListTasks(string accountId, CancellationToken cancellationToken = default) =>
+    public ValueTask<WorkersAiSearchTask200Response?> ListTasks(string accountId, CancellationToken cancellationToken = default) =>
         SearchTasks(accountId, cancellationToken);
 
-    public ValueTask<WorkersAiSearchAuthor200?> ListAuthors(string accountId, CancellationToken cancellationToken = default) =>
+    public ValueTask<WorkersAiSearchAuthor200Response?> ListAuthors(string accountId, CancellationToken cancellationToken = default) =>
         SearchAuthors(accountId, cancellationToken);
 
-    private static bool HasModelName(WorkersAiSearchModel200Member1_result model, string modelName)
+    private static List<WorkersAiSearchModel200ResponseAnyOf1ResultItem>? GetModels(WorkersAiSearchModel200Response? response) =>
+        response?.WorkersAiSearchModel200ResponseAnyOf1?.Result ??
+        response?.WorkersAiSearchModel200ResponseAnyOf2?.Data?.Select(item => new WorkersAiSearchModel200ResponseAnyOf1ResultItem
+        {
+            AdditionalData = new Dictionary<string, object>(item.AdditionalData)
+        }).ToList();
+    private static bool HasModelName(WorkersAiSearchModel200ResponseAnyOf1ResultItem model, string modelName)
     {
         foreach (string key in _modelNameKeys)
         {

@@ -30,7 +30,7 @@ public sealed partial class CloudflareWorkersAiUtil : ICloudflareWorkersAiUtil
         _logger = logger;
     }
 
-    public async ValueTask<WorkersAiPostRunModel200?> Run(string accountId, string modelName, WorkersAiPostRunModel input,
+    public async ValueTask<WorkersAiPostRunModel200Response?> Run(string accountId, string modelName, WorkersAiPostRunModelRequest input,
         CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(accountId);
@@ -42,7 +42,7 @@ public sealed partial class CloudflareWorkersAiUtil : ICloudflareWorkersAiUtil
         try
         {
             CloudflareOpenApiClient client = await _clientUtil.Get(cancellationToken).NoSync();
-            WorkersAiPostRunModel200? response = await client.Accounts[accountId].Ai.Run[modelName]
+            WorkersAiPostRunModel200Response? response = await client.Accounts[accountId].Ai.Run[modelName]
                 .PostAsync(input, cancellationToken: cancellationToken)
                 .NoSync();
 
@@ -56,7 +56,7 @@ public sealed partial class CloudflareWorkersAiUtil : ICloudflareWorkersAiUtil
         }
     }
 
-    public async ValueTask<WorkersAiSearchModel200?> SearchModels(string accountId, string? search = null, string? task = null,
+    public async ValueTask<WorkersAiSearchModel200Response?> SearchModels(string accountId, string? search = null, string? task = null,
         string? author = null, bool? hideExperimental = null, int? page = null, int? perPage = null,
         CancellationToken cancellationToken = default)
     {
@@ -67,7 +67,7 @@ public sealed partial class CloudflareWorkersAiUtil : ICloudflareWorkersAiUtil
         try
         {
             CloudflareOpenApiClient client = await _clientUtil.Get(cancellationToken).NoSync();
-            WorkersAiSearchModel200? response = await client.Accounts[accountId].Ai.Models.Search.GetAsync(config =>
+            WorkersAiSearchModel200Response? response = await client.Accounts[accountId].Ai.Models.Search.GetAsync(config =>
             {
                 config.QueryParameters.Search = search;
                 config.QueryParameters.Task = task;
@@ -87,7 +87,7 @@ public sealed partial class CloudflareWorkersAiUtil : ICloudflareWorkersAiUtil
         }
     }
 
-    public async ValueTask<WorkersAiGetModelSchema200?> GetModelSchema(string accountId, string modelName,
+    public async ValueTask<WorkersAiGetModelSchema200Response?> GetModelSchema(string accountId, string modelName,
         CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(accountId);
@@ -98,7 +98,7 @@ public sealed partial class CloudflareWorkersAiUtil : ICloudflareWorkersAiUtil
         try
         {
             CloudflareOpenApiClient client = await _clientUtil.Get(cancellationToken).NoSync();
-            WorkersAiGetModelSchema200? response = await client.Accounts[accountId].Ai.Models.Schema.GetAsync(config =>
+            WorkersAiGetModelSchema200Response? response = await client.Accounts[accountId].Ai.Models.Schema.GetAsync(config =>
             {
                 config.QueryParameters.Model = modelName;
             }, cancellationToken).NoSync();
@@ -113,7 +113,7 @@ public sealed partial class CloudflareWorkersAiUtil : ICloudflareWorkersAiUtil
         }
     }
 
-    public async ValueTask<WorkersAiSearchTask200?> SearchTasks(string accountId, CancellationToken cancellationToken = default)
+    public async ValueTask<WorkersAiSearchTask200Response?> SearchTasks(string accountId, CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(accountId);
 
@@ -122,7 +122,7 @@ public sealed partial class CloudflareWorkersAiUtil : ICloudflareWorkersAiUtil
         try
         {
             CloudflareOpenApiClient client = await _clientUtil.Get(cancellationToken).NoSync();
-            WorkersAiSearchTask200? response = await client.Accounts[accountId].Ai.Tasks.Search
+            WorkersAiSearchTask200Response? response = await client.Accounts[accountId].Ai.Tasks.Search
                 .GetAsync(cancellationToken: cancellationToken)
                 .NoSync();
 
@@ -136,7 +136,7 @@ public sealed partial class CloudflareWorkersAiUtil : ICloudflareWorkersAiUtil
         }
     }
 
-    public async ValueTask<WorkersAiSearchAuthor200?> SearchAuthors(string accountId, CancellationToken cancellationToken = default)
+    public async ValueTask<WorkersAiSearchAuthor200Response?> SearchAuthors(string accountId, CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(accountId);
 
@@ -145,7 +145,7 @@ public sealed partial class CloudflareWorkersAiUtil : ICloudflareWorkersAiUtil
         try
         {
             CloudflareOpenApiClient client = await _clientUtil.Get(cancellationToken).NoSync();
-            WorkersAiSearchAuthor200? response = await client.Accounts[accountId].Ai.Authors.Search
+            WorkersAiSearchAuthor200Response? response = await client.Accounts[accountId].Ai.Authors.Search
                 .GetAsync(cancellationToken: cancellationToken)
                 .NoSync();
 

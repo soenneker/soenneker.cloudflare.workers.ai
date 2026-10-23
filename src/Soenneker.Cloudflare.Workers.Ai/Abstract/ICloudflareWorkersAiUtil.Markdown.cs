@@ -17,7 +17,7 @@ public partial interface ICloudflareWorkersAiUtil
     /// <param name="filePath">Path of the file to use.</param>
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task whose result is the requested workers Ai Post To Markdown.</returns>
-    ValueTask<WorkersAiPostToMarkdown200?> ConvertToMarkdown(string accountId, string filePath,
+    ValueTask<WorkersAiPostToMarkdown200Response?> ConvertToMarkdown(string accountId, string filePath,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -29,7 +29,7 @@ public partial interface ICloudflareWorkersAiUtil
     /// <param name="contentType">Media type describing the supplied content.</param>
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task whose result is the requested workers Ai Post To Markdown.</returns>
-    ValueTask<WorkersAiPostToMarkdown200?> ConvertToMarkdown(string accountId, byte[] content, string fileName,
+    ValueTask<WorkersAiPostToMarkdown200Response?> ConvertToMarkdown(string accountId, byte[] content, string fileName,
         string contentType = "application/octet-stream", CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -41,7 +41,7 @@ public partial interface ICloudflareWorkersAiUtil
     /// <param name="contentType">Media type describing the supplied content.</param>
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task whose result is the requested workers Ai Post To Markdown.</returns>
-    ValueTask<WorkersAiPostToMarkdown200?> ConvertToMarkdown(string accountId, Stream content, string fileName,
+    ValueTask<WorkersAiPostToMarkdown200Response?> ConvertToMarkdown(string accountId, Stream content, string fileName,
         string contentType = "application/octet-stream", CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -50,6 +50,6 @@ public partial interface ICloudflareWorkersAiUtil
     /// <param name="accountId">Identifier of the target account.</param>
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task whose result is the requested workers Ai Get To Markdown Supported.</returns>
-    ValueTask<WorkersAiGetToMarkdownSupported200?> GetSupportedMarkdownFormats(string accountId,
+    ValueTask<WorkersAiGetToMarkdownSupported200Response?> GetSupportedMarkdownFormats(string accountId,
         CancellationToken cancellationToken = default);
 }

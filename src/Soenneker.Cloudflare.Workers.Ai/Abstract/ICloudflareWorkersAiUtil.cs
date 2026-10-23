@@ -17,7 +17,7 @@ public partial interface ICloudflareWorkersAiUtil
     /// <param name="input">The model-specific input.</param>
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task whose result is the requested workers Ai Post Run Model.</returns>
-    ValueTask<WorkersAiPostRunModel200?> Run(string accountId, string modelName, WorkersAiPostRunModel input,
+    ValueTask<WorkersAiPostRunModel200Response?> Run(string accountId, string modelName, WorkersAiPostRunModelRequest input,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -32,7 +32,7 @@ public partial interface ICloudflareWorkersAiUtil
     /// <param name="perPage">Optional number of results per page.</param>
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task whose result is the requested workers Ai Search Model.</returns>
-    ValueTask<WorkersAiSearchModel200?> SearchModels(string accountId, string? search = null, string? task = null,
+    ValueTask<WorkersAiSearchModel200Response?> SearchModels(string accountId, string? search = null, string? task = null,
         string? author = null, bool? hideExperimental = null, int? page = null, int? perPage = null,
         CancellationToken cancellationToken = default);
 
@@ -43,7 +43,7 @@ public partial interface ICloudflareWorkersAiUtil
     /// <param name="modelName">Name of the model to use.</param>
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task whose result is the requested workers Ai Get Model Schema.</returns>
-    ValueTask<WorkersAiGetModelSchema200?> GetModelSchema(string accountId, string modelName,
+    ValueTask<WorkersAiGetModelSchema200Response?> GetModelSchema(string accountId, string modelName,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -52,7 +52,7 @@ public partial interface ICloudflareWorkersAiUtil
     /// <param name="accountId">Identifier of the target account.</param>
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task whose result is the requested workers Ai Search Task.</returns>
-    ValueTask<WorkersAiSearchTask200?> SearchTasks(string accountId, CancellationToken cancellationToken = default);
+    ValueTask<WorkersAiSearchTask200Response?> SearchTasks(string accountId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the available Workers AI model authors.
@@ -60,6 +60,6 @@ public partial interface ICloudflareWorkersAiUtil
     /// <param name="accountId">Identifier of the target account.</param>
     /// <param name="cancellationToken">Token used to cancel the operation.</param>
     /// <returns>A task whose result is the requested workers Ai Search Author.</returns>
-    ValueTask<WorkersAiSearchAuthor200?> SearchAuthors(string accountId, CancellationToken cancellationToken = default);
+    ValueTask<WorkersAiSearchAuthor200Response?> SearchAuthors(string accountId, CancellationToken cancellationToken = default);
 
 }
