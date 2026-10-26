@@ -2,7 +2,7 @@
 
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
+        <TargetFramework>net11.0</TargetFramework>
         <IsAotCompatible>true</IsAotCompatible>
         <Nullable>enable</Nullable>
         <Platforms>AnyCPU</Platforms>
@@ -11,7 +11,7 @@
 
     <PropertyGroup>
         <Description>A utility for working with Cloudflare Workers AI.</Description>
-        <Version Condition="'$(BUILD_VERSION)' == ''">4.0.0</Version>
+        <Version Condition="'$(BUILD_VERSION)' == ''">11.0.0</Version>
         <Version Condition="'$(BUILD_VERSION)' != ''">$(BUILD_VERSION)</Version>
         <AssemblyName>Soenneker.Cloudflare.Workers.Ai</AssemblyName>
         <PackageId>Soenneker.Cloudflare.Workers.Ai</PackageId>
@@ -45,9 +45,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Soenneker.Cloudflare.Utils.Client" Version="4.0.1092" />
+        <PackageReference Include="Soenneker.Cloudflare.Utils.Client" Version="4.0.1093" />
     </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Soenneker.Utils.File" Version="4.0.2319" />
+    <PackageReference Include="Soenneker.Utils.File" Version="4.0.2320" />
   </ItemGroup>
 </Project>
